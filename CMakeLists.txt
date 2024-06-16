@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.10)
 project(MyProject VERSION 1.0)
 
 # 设置 C++ 标准
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 包含头文件目录
@@ -30,6 +30,16 @@ if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})
     target_link_libraries(MyProject ${TBB_LIBRARIES})
 endif()
+
+# 手动设置 TBB 库路径和链接
+set(TBB_ROOT "/root/tbb") # 更新为你的 TBB 安装路径
+set(TBB_INCLUDE_DIRS "${TBB_ROOT}/include")
+set(TBB_LIBRARY_DIRS "${TBB_ROOT}/lib") # 确保此路径包含 libtbb.so 和 libtbbmalloc.so
+
+include_directories(${TBB_INCLUDE_DIRS})
+link_directories(${TBB_LIBRARY_DIRS})
+target_link_libraries(MyProject tbb tbbmalloc)
+
 
 # 查找并链接 Armadillo 库
 find_package(Armadillo REQUIRED)
