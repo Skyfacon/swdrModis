@@ -88,8 +88,12 @@ message(STATUS "Armadillo include dirs: ${ARMADILLO_INCLUDE_DIRS}")
 
 # 打印 TBB 库信息
 message(STATUS "TBB version: ${TBB_VERSION}")
-message(STATUS "TBB libraries: ${TBB_LIBRARIES}")
 message(STATUS "TBB include dirs: ${TBB_INCLUDE_DIRS}")
+message(STATUS "TBB libraries: ${TBB_LIBRARIES}")
+
 
 
 # 打印 GDAL库信息
+message(STATUS "GDAL version: ${GDAL_VERSION}")
+message(STATUS "GDAL include dirs: ${GDAL_INCLUDE_DIRS}")
+message(STATUS "GDAL libraries: ${GDAL_LIBRARIES}")
