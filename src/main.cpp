@@ -23,11 +23,11 @@ int main(int argc, char* argv[])
 
 	///for test----------------------------------------------
 	//string m_cfg_file = R"(G:\29_paper1\01_validation\00_LUT\ahi_swdr_mat.cfg)";
-	string m_cfg_file = R"(G:\30_paper3\01_FY3D\ahi_swdr_v3_rural_FY-3D.cfg)";
+	string m_cfg_file = R"(/root/v1.0/swdrModis/config/ahi_swdr_v3_rural_FY-3D.cfg)";
 	//string m_in_path = R"(E:\21_three_poles_products\01_inputdata\test)";
 	//string m_out_path = R"(E:\21_three_poles_products\02_output_result_test\test\fenkuai)";
-	string m_in_path = R"(G:\30_paper3\01_FY3D\inputdata_cut)";
-	string m_out_path = R"(G:\30_paper3\01_FY3D\output_cut)";
+	string m_in_path = R"(/root/v1.0/swdrModis/data/inputdata/)";
+	string m_out_path = R"(/root/v1.0/swdrModis/data/output/)";
 	//-------------------------------------------------------
 
 	myConfig mycfg;
