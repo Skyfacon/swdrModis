@@ -24,28 +24,45 @@ if(Boost_FOUND)
     target_link_libraries(MyProject ${Boost_LIBRARIES})
 endif()
 
-# 查找并链接 TBB 库
+
+# # 查找并链接 OpenBLAS库
+# set(CMAKE_PREFIX_PATH "/opt/OpenBLAS/lib/cmake/openblas/")
+# find_package(OpenBLAS REQUIRED)
+# if(OpenBLAS_FOUND)
+#     include_directories(${OpenBLAS_INCLUDE_DIRS})
+#     target_link_libraries(MyProject ${OpenBLAS_LIBRARIES})
+# else()
+#     message(WARNING "OpenBLAS not found")
+# endif()
+
+
+# # 查找并链接 LAPACK 库
+# find_package(LAPACK REQUIRED)
+# if(LAPACK_FOUND)
+#     include_directories(${LAPACK_INCLUDE_DIRS})
+#     target_link_libraries(MyProject ${LAPACK_LIBRARIES})
+# else()
+#     message(WARNING "LAPACK not found")
+# endif()
+
+
+# TBB 库的链接还是有问题，可以参照下 TBB库 cmake下的 README
+list(APPEND CMAKE_MODULE_PATH "/root/oneTBB-2020.3/cmake/")
 find_package(TBB REQUIRED)
 if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})
-    target_link_libraries(MyProject ${TBB_LIBRARIES})
+    target_link_libraries(MyProject TBB::tbb)
+else()
+    message(WARNING "TBB not found")
 endif()
-
-# 手动设置 TBB 库路径和链接
-set(TBB_ROOT "/root/tbb") # 更新为你的 TBB 安装路径
-set(TBB_INCLUDE_DIRS "${TBB_ROOT}/include")
-set(TBB_LIBRARY_DIRS "${TBB_ROOT}/lib") # 确保此路径包含 libtbb.so 和 libtbbmalloc.so
-
-include_directories(${TBB_INCLUDE_DIRS})
-link_directories(${TBB_LIBRARY_DIRS})
-target_link_libraries(MyProject tbb tbbmalloc)
-
 
 # 查找并链接 Armadillo 库
 find_package(Armadillo REQUIRED)
 if(Armadillo_FOUND)
-    include_directories(${Armadillo_INCLUDE_DIRS})
-    target_link_libraries(MyProject ${Armadillo_LIBRARIES})
+    include_directories(${ARMADILLO_INCLUDE_DIRS})
+    target_link_libraries(MyProject ${ARMADILLO_LIBRARIES})
+else()
+    message(WARNING "Armadillo not found")
 endif()
 
 # 查找并链接 GDAL 库
@@ -55,8 +72,24 @@ if(GDAL_FOUND)
     target_link_libraries(MyProject ${GDAL_LIBRARIES})
 endif()
 
-# 打印库路径以进行调试
-message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
+# # 打印库路径以进行调试
+# message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
+# message(STATUS "Armadillo include dirs: ${ARMADILLO_INCLUDE_DIRS}")
+# message(STATUS "GDAL include dirs: ${GDAL_INCLUDE_DIRS}")
+# message(STATUS "OpenBLAS include dirs: ${OpenBLAS_INCLUDE_DIRS}")
+# message(STATUS "TBB include dirs: ${TBB_INCLUDE_DIRS}")
+# message(STATUS "LAPACK include dirs: ${LAPACK_INCLUDE_DIRS}")
+
+
+# 打印 Armadillo 库信息
+message(STATUS "Armadillo version: ${ARMADILLO_VERSION}")
+message(STATUS "Armadillo libraries: ${ARMADILLO_LIBRARIES}")
+message(STATUS "Armadillo include dirs: ${ARMADILLO_INCLUDE_DIRS}")
+
+# 打印 TBB 库信息
+message(STATUS "TBB version: ${TBB_VERSION}")
+message(STATUS "TBB libraries: ${TBB_LIBRARIES}")
 message(STATUS "TBB include dirs: ${TBB_INCLUDE_DIRS}")
-message(STATUS "Armadillo include dirs: ${Armadillo_INCLUDE_DIRS}")
-message(STATUS "GDAL include dirs: ${GDAL_INCLUDE_DIRS}")
+
+
+# 打印 GDAL库信息
