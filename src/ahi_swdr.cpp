@@ -34,7 +34,7 @@ ahi_swdr::ahi_swdr(const myConfig& cfg) :
 	m_dw_dem10 = 0;
 	m_min_los = 0;
 
-	//¹ýÂË²éÕÒ±íµÄ²ÎÁ¿
+	//ï¿½ï¿½ï¿½Ë²ï¿½ï¿½Ò±ï¿½ï¿½Ä²ï¿½ï¿½ï¿½
 	//idx_filter_sza = 87480;
 	//idx_filter_vza = 9720;
 	//idx_filter_los = 1944;
@@ -45,7 +45,7 @@ ahi_swdr::ahi_swdr(const myConfig& cfg) :
 	idx_filter_los = 2160;
 	idx_filter_dem = 360;
 
-	//²éÕÒ±íµÄÁÐ
+	//ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½
 	lut_cols = 40; 
 
 
@@ -170,7 +170,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	fcube data;
 	int ok = read_3d_geotif(input_file, data);
 	if (ok != 0) return 1;
-	//cout << input_file << " have been read.\n";
+	cout << input_file << " have been read.\n";
 
 
 	//hdf
@@ -216,10 +216,10 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	fmat toa_up_flux_mat = zeros<fmat>(nrows, ncols) - 1.0;
 	fmat rho_mat = zeros<fmat>(nrows, ncols) - 1.0;
 
-	//¾ØÕó¼ÆËã,ÏÈ¶þÎ¬×ªÒ»Î¬//ÔÙÒ»Î¬×ª¶þÎ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½È¶ï¿½Î¬×ªÒ»Î¬//ï¿½ï¿½Ò»Î¬×ªï¿½ï¿½Î¬
 	fvec sza_mat_v = sza_mat.as_col();
 	fvec myvza_mat_v = vza_mat.as_col();
-	//¶Ôvec½øÐÐÒ»¸öµØÀíÇúÃæµÄÐ£Õý
+	//ï¿½ï¿½vecï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½
 	myvza_mat_v = arma::sin(arma::datum::pi * myvza_mat_v / 180.0);
 	myvza_mat_v = myvza_mat_v * 6371.0 / 6471.0;
 	fvec vza_mat_v = 180.0 * arma::asin(myvza_mat_v) / arma::datum::pi;
@@ -255,7 +255,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	fvec toa_up_flux_v = toa_up_flux_mat.as_col();
 	fvec rho_v = rho_mat.as_col();
 
-	//ÕÒµ½Ó°Ïñ¶ÔÓ¦µÄsza×î´óÖµ×îÐ¡Öµ
+	//ï¿½Òµï¿½Ó°ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½szaï¿½ï¿½ï¿½Öµï¿½ï¿½Ð¡Öµ
 	float sza_min_image = sza_mat_v.min();
 	float sza_max_image = sza_mat_v.max();
 
@@ -264,7 +264,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	int flag = filter_sza(sza_min_image, sza_max_image, up_sza_idx_image, dw_sza_idx_image, m_sza_list_ft, m_sza_min, m_sza_max);
 	if (flag != 0) return 1;
 
-	//ÕÒµ½Ó°Ïñ¶ÔÓ¦µÄvza×î´óÖµ×îÐ¡Öµ
+	//ï¿½Òµï¿½Ó°ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½vzaï¿½ï¿½ï¿½Öµï¿½ï¿½Ð¡Öµ
 	float vza_min_image = vza_mat_v.min();
 	float vza_max_image = vza_mat_v.max();
 
@@ -275,13 +275,13 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 
 	//---------------------------------------------------------
 
-	//cout << "Begin to retrieve SWDR from MODIS data...\n";
-	//wall_clock timer;
+	cout << "Begin to retrieve SWDR from MODIS data...\n";
+	wall_clock timer;
 
-	//==¾ØÕó¼ÆËã===========
-	//timer.tic();
+	//==ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½===========
+	timer.tic();
 	//----------------------------------------
-	for (uword i = dw_sza_idx_image; i < up_sza_idx_image; i++) //10¶È,×î´óÖµµ½85
+	for (uword i = dw_sza_idx_image; i < up_sza_idx_image; i++) //10ï¿½ï¿½,ï¿½ï¿½ï¿½Öµï¿½ï¿½85
 	{
 		uword up_sza_idx;
 		uword dw_sza_idx;
@@ -408,12 +408,12 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 					dw_dem_idx = idx(0);
 
 					//-----------------------------
-					//ÅÐ¶ÏÓÃÓÚ¼ÆËãµÄ¿é
+					//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½Ä¿ï¿½
 					idx_tile = find(sza_mat_v >= m_dw_sza && sza_mat_v <= m_up_sza && vza_mat_v >= m_dw_vza 
 						&& vza_mat_v <= m_up_vza && los_mat_v >= m_dw_los && los_mat_v <= m_up_los
 						&& dem_mat_v <= m_up_dem && dem_mat_v >= m_dw_dem && flag_mat_v == 1 && toa_rad_mat_b6_v > 0 && toa_rad_mat_b7_v > 0);
 					//if (idx_tile.n_elem == 0) continue;
-					if (idx_tile.n_elem < 5) continue; //¸Ä³ÉÐ¡ÓÚ5¿ÉÒÔÌáÉý2Ãë×óÓÒ
+					if (idx_tile.n_elem < 5) continue; //ï¿½Ä³ï¿½Ð¡ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 					//-----------------------------
 					//
@@ -429,15 +429,15 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 					//(4)up_SZA_up_VZA_LOS_dem_indx
 					fmat lut_us_uv_ld = lut_us_uv_l.rows(span(st, ed));
 
-					//ºÏ²¢±í
+					//ï¿½Ï²ï¿½ï¿½ï¿½
 					fmat lut = lut_ds_dv_ld;
 					lut.insert_rows(lut.n_rows, lut_ds_uv_ld);
 					lut.insert_rows(lut.n_rows, lut_us_dv_ld);
 					lut.insert_rows(lut.n_rows, lut_us_uv_ld);
 
-					////¶Ô²éÕÒ±í½øÐÐ·Ö¿é
-					//=============µÚÒ»´Î·Ö¿é==================================================================
-					//¶ÔÓ°Ïñ½øÐÐ·Ö¿é
+					////ï¿½Ô²ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
+					//=============ï¿½ï¿½Ò»ï¿½Î·Ö¿ï¿½==================================================================
+					//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
 					fvec dem_sub_v = dem_mat_v(idx_tile);
 					fvec sza_sub_v = sza_mat_v(idx_tile);
 					fvec vza_sub_v = vza_mat_v(idx_tile);
@@ -475,10 +475,10 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 
 					////================================================================================================================
 					
-					//¸ù¾Ý»ýÑ©Ö¸ÊýµÚ¶þ´Î·Ö¿é
+					//ï¿½ï¿½ï¿½Ý»ï¿½Ñ©Ö¸ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Î·Ö¿ï¿½
 					float lut_diff_max = 1;
 					float lut_diff_min = -1;
-					//µÚÒ»¿éÎÞÑ©
+					//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ñ©
 					uvec idx_nosnow_1 = find(((toa_rad_b1_sub_v / 511.72 <= 0.1) || (toa_rad_b2_sub_v / 315.69 <= 0.1) || (toa_rad_b4_sub_v / 593.84 <= 0.11))
 						|| (band3_ref_sub_v <= 0.3));
 					if (idx_nosnow_1.n_elem != 0)
@@ -494,7 +494,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						fvec toa_up_flux_sub_v1 = zeros<fvec>(nelem_tiles) - 1.0;
 						fvec rho_sub_v1 = zeros<fvec>(nelem_tiles) - 1.0;
 						//===================================================
-						//¶ÔÓ°Ïñ½øÐÐ·Ö¿é
+						//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
 						fvec dem_sub_v1 = dem_sub_v(idx_nosnow_1);
 						fvec sza_sub_v1 = sza_sub_v(idx_nosnow_1);
 						fvec vza_sub_v1 = vza_sub_v(idx_nosnow_1);
@@ -513,7 +513,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						fvec sw_alb_sub_v1 = sw_alb_sub_v(idx_nosnow_1);
 						fvec vis_alb_sub_v1 = vis_alb_sub_v(idx_nosnow_1);
 
-						////ÓÃindex×Ó±í´«µÝ
+						////ï¿½ï¿½indexï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½
 						ok = get_SWDR(lut, sza_sub_v1, vza_sub_v1, dem_sub_v1, toa_rad_b1_sub_v1, toa_rad_b3_sub_v1,
 							toa_rad_b4_sub_v1, toa_rad_b6_sub_v1, toa_rad_b7_sub_v1,
 							band1_ref_sub_v1, band3_ref_sub_v1, band4_ref_sub_v1,
@@ -523,7 +523,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 							par_sub_v1, pardir_sub_v1, uva_sub_v1, uvb_sub_v1, toa_up_flux_sub_v1, rho_sub_v1);
 						if (ok != 0) continue; // invalid
 
-						//°ÑµÃµ½µÄ½á¹ûÐ´»ØÈ¥
+						//ï¿½ÑµÃµï¿½ï¿½Ä½ï¿½ï¿½Ð´ï¿½ï¿½È¥
 						swdr_sub_v(idx_nosnow_1) = swdr_sub_v1;
 						sw_dir_sub_v(idx_nosnow_1) = sw_dir_sub_v1;
 						par_sub_v(idx_nosnow_1) = par_sub_v1;
@@ -536,7 +536,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						//return 0;
 					}
 
-					//µÚ¶þ¿éÎÞÑ©
+					//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½Ñ©
 					uvec idx_nosnow_2 = find((toa_rad_b1_sub_v / 511.72 > 0.1) && (toa_rad_b2_sub_v / 315.69 > 0.1) && (toa_rad_b4_sub_v / 593.84 > 0.11)
 						&& (band3_ref_sub_v > 0.3) && (toa_rad_ndsi_sub_v < 0.1));
 
@@ -555,7 +555,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						fvec toa_up_flux_sub_v2 = zeros<fvec>(nelem_tiles) - 1.0;
 						fvec rho_sub_v2 = zeros<fvec>(nelem_tiles) - 1.0;
 						//===================================================
-						//¶ÔÓ°Ïñ½øÐÐ·Ö¿é
+						//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
 						fvec dem_sub_v2 = dem_sub_v(idx_nosnow_2);
 						fvec sza_sub_v2 = sza_sub_v(idx_nosnow_2);
 						fvec vza_sub_v2 = vza_sub_v(idx_nosnow_2);
@@ -574,7 +574,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						fvec sw_alb_sub_v2 = sw_alb_sub_v(idx_nosnow_2);
 						fvec vis_alb_sub_v2 = vis_alb_sub_v(idx_nosnow_2);
 
-						//¶à¼ÓÒ»¸öLUT×Ó±í´«µÝ,!!¿ÉÒÔÔÙ¶à¼ÓÒ»¸ö×Ü±í´«µÝ£¬Èç¹ûÒ»¸ö½Ç¶ÈÌõ¼þÏÂ£¬ÔÚ×Ó±íÕÒ²»µ½¿ÉÓÃ±äÁ¿Ê±£¬¿ÉÒÔÓÃ×Ü±íÕÒ¿ÉÓÃ±äÁ¿
+						//ï¿½ï¿½ï¿½Ò»ï¿½ï¿½LUTï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½,!!ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½Ó±ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü±ï¿½ï¿½Ò¿ï¿½ï¿½Ã±ï¿½ï¿½ï¿½
 						ok = get_SWDR(lut, sza_sub_v2, vza_sub_v2, dem_sub_v2, toa_rad_b1_sub_v2, toa_rad_b3_sub_v2,
 							toa_rad_b4_sub_v2, toa_rad_b6_sub_v2, toa_rad_b7_sub_v2,
 							band1_ref_sub_v2, band3_ref_sub_v2, band4_ref_sub_v2, 
@@ -584,7 +584,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 							par_sub_v2, pardir_sub_v2, uva_sub_v2, uvb_sub_v2, toa_up_flux_sub_v2, rho_sub_v2);
 						if (ok != 0) continue; // invalid
 
-						//°ÑµÃµ½µÄ½á¹ûÐ´»ØÈ¥
+						//ï¿½ÑµÃµï¿½ï¿½Ä½ï¿½ï¿½Ð´ï¿½ï¿½È¥
 						swdr_sub_v(idx_nosnow_2) = swdr_sub_v2;
 						sw_dir_sub_v(idx_nosnow_2) = sw_dir_sub_v2;
 						par_sub_v(idx_nosnow_2) = par_sub_v2;
@@ -597,7 +597,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						//return 0;
 					}
 
-					//µÚÈý¿éÓÐÑ© (»¹µÃ¼ÓÉÏ2±¶±ê×¼²î£©
+					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ© (ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½×¼ï¿½î£©
 					uvec idx_snow_3 = find((toa_rad_b1_sub_v / 511.72 > 0.1) && (toa_rad_b2_sub_v / 315.69 > 0.1) && (toa_rad_b4_sub_v / 593.84 > 0.11)
 						&& (band3_ref_sub_v > 0.3) && (toa_rad_ndsi_sub_v >= 0.1));
 
@@ -614,7 +614,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 						fvec toa_up_flux_sub_v3 = zeros<fvec>(nelem_tiles) - 1.0;
 						fvec rho_sub_v3 = zeros<fvec>(nelem_tiles) - 1.0;
 						//======================================================
-						//¶ÔÓ°Ïñ½øÐÐ·Ö¿é
+						//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
 						fvec dem_sub_v3 = dem_sub_v(idx_snow_3);
 						fvec sza_sub_v3 = sza_sub_v(idx_snow_3);
 						fvec vza_sub_v3 = vza_sub_v(idx_snow_3);
@@ -657,7 +657,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 							fvec rho_sub_v3_sub = zeros<fvec>(nelem_tiles) - 1.0;
 							//======================================================
 
-							//¶ÔÓ°Ïñ½øÐÐ·Ö¿é
+							//ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ð·Ö¿ï¿½
 							fvec dem_sub_v3_sub = dem_sub_v3(idx_snow_3_i);
 							fvec sza_sub_v3_sub = sza_sub_v3(idx_snow_3_i);
 							fvec vza_sub_v3_sub = vza_sub_v3(idx_snow_3_i);
@@ -676,7 +676,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 							fvec sw_alb_sub_v3_sub = sw_alb_sub_v3(idx_snow_3_i);
 							fvec vis_alb_sub_v3_sub = vis_alb_sub_v3(idx_snow_3_i);
 
-							//ÓÃindex×Ó±í´«µÝ
+							//ï¿½ï¿½indexï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½
 							ok = get_SWDR(lut, sza_sub_v3_sub, vza_sub_v3_sub, dem_sub_v3_sub, toa_rad_b1_sub_v3_sub, toa_rad_b3_sub_v3_sub,
 								toa_rad_b4_sub_v3_sub, toa_rad_b6_sub_v3_sub, toa_rad_b7_sub_v3_sub,
 								band1_ref_sub_v3_sub, band3_ref_sub_v3_sub, band4_ref_sub_v3_sub,
@@ -686,7 +686,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 								par_sub_v3_sub, pardir_sub_v3_sub, uva_sub_v3_sub, uvb_sub_v3_sub, toa_up_flux_sub_v3_sub, rho_sub_v3_sub);
 							if (ok != 0) continue; // invalid
 
-							//°ÑµÃµ½µÄ½á¹ûÐ´»ØÈ¥
+							//ï¿½ÑµÃµï¿½ï¿½Ä½ï¿½ï¿½Ð´ï¿½ï¿½È¥
 							swdr_sub_v3(idx_snow_3_i) = swdr_sub_v3_sub;
 							sw_dir_sub_v3(idx_snow_3_i) = sw_dir_sub_v3_sub;
 							par_sub_v3(idx_snow_3_i) = par_sub_v3_sub;
@@ -699,7 +699,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 							//return 0;
 						}
 
-						//°ÑµÃµ½µÄ½á¹ûÐ´»ØÈ¥
+						//ï¿½ÑµÃµï¿½ï¿½Ä½ï¿½ï¿½Ð´ï¿½ï¿½È¥
 						swdr_sub_v(idx_snow_3) = swdr_sub_v3;
 						sw_dir_sub_v(idx_snow_3) = sw_dir_sub_v3;
 						par_sub_v(idx_snow_3) = par_sub_v3;
@@ -711,7 +711,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 					}
 
 					//==================================================================================
-					//½«½Ç¶È·Ö¿é½á¹ûÐ´»ØÈ¥
+					//ï¿½ï¿½ï¿½Ç¶È·Ö¿ï¿½ï¿½ï¿½Ð´ï¿½ï¿½È¥
 					swdr_v(idx_tile) = swdr_sub_v;
 					sw_dir_v(idx_tile) = sw_dir_sub_v;
 					par_v(idx_tile) = par_sub_v;
@@ -729,7 +729,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 
 	} // end i,SZA
 
-	//Ò»Î¬±ä¶þÎ¬
+	//Ò»Î¬ï¿½ï¿½ï¿½Î¬
 	swdr_mat = reshape(swdr_v, nrows, ncols);
 	sw_dir_mat = reshape(sw_dir_v, nrows, ncols);
 	par_mat = reshape(par_v, nrows, ncols);
@@ -740,9 +740,9 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	toa_up_flux_mat = reshape(toa_up_flux_v, nrows, ncols);
 	rho_mat = reshape(rho_v, nrows, ncols);
 
-	//cout << "-> " << " image time: " << timer.toc() << " seconds." << endl;
+	cout << "-> " << " image time: " << timer.toc() << " seconds." << endl;
 
-	//cout << "To estimate SWDR has been finished.\n";
+	cout << "To estimate SWDR has been finished.\n";
 
 	//***********************************************************
 
@@ -753,9 +753,9 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 	fluxes.slice(3) = conv_to<Mat<short>>::from(pardir_mat * 10);
 	fluxes.slice(4) = conv_to<Mat<short>>::from(uva_mat * 200);        //scale_factor = 0.005
 	fluxes.slice(5) = conv_to<Mat<short>>::from(uvb_mat * 1000);       //scale_factor = 0.001
-	fluxes.slice(6) = conv_to<Mat<short>>::from(toa_up_flux_mat * 10); //toaÉÏÐÐ·øÉä
-	fluxes.slice(7) = conv_to<Mat<short>>::from(rho_mat * 10000);      //´óÆøÇòÃæ·´ÕÕÂÊ£¬ÓÃÓÚÁÙ½üÐ§Ó¦¼ÆËã
-	fluxes.slice(8) = conv_to<Mat<short>>::from(sw_alb_mat * 10000);  //µØ±í¿í²¨¶Î·´ÕÕÂÊ£¬ÓÃÓÚÁÙ½üÐ§Ó¦¼ÆËã
+	fluxes.slice(6) = conv_to<Mat<short>>::from(toa_up_flux_mat * 10); //toaï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½
+	fluxes.slice(7) = conv_to<Mat<short>>::from(rho_mat * 10000);      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ·´ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½Ð§Ó¦ï¿½ï¿½ï¿½ï¿½
+	fluxes.slice(8) = conv_to<Mat<short>>::from(sw_alb_mat * 10000);  //ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î·ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù½ï¿½Ð§Ó¦ï¿½ï¿½ï¿½ï¿½
 	fluxes.slice(9) = conv_to<Mat<short>>::from(sza_mat * 100);       //scale_factor = 0.01
 
 	imageGeoInfo geoinfo{ input_file };
@@ -769,7 +769,7 @@ int ahi_swdr::retrieve_image(const std::string& input_file, const std::string& o
 		return 1;
 	}
 
-	//cout << "Save SWDR MODIS to file: " << out_file << endl;
+	cout << "Save SWDR MODIS to file: " << out_file << endl;
 	return 0;
 }
 
@@ -780,7 +780,7 @@ int ahi_swdr::classify_atmos(arma::fmat& toa_rad_band1_lut, arma::fmat& toa_rad_
 	using namespace std;
 	using namespace arma;
 
-	//Çç¿ÕºÍ¶àÔÆÖ±½Ó¸øµ½Ö¸¶¨µÄindex£¬±Èfind¸ü¿ì£¬Çç¿ÕÊÇVIS=20£¬COD=0; ¶àÔÆÊÇVIS=20£¬COD=60
+	//ï¿½ï¿½ÕºÍ¶ï¿½ï¿½ï¿½Ö±ï¿½Ó¸ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½ï¿½ï¿½findï¿½ï¿½ï¿½ì£¬ï¿½ï¿½ï¿½ï¿½ï¿½VIS=20ï¿½ï¿½COD=0; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VIS=20ï¿½ï¿½COD=60
 	//======================================================================================
 	uword idx_ds_dv_dd = 0;
 	uword idx_ds_dv_ud = idx_ds_dv_dd + idx_filter_dem;
@@ -791,8 +791,8 @@ int ahi_swdr::classify_atmos(arma::fmat& toa_rad_band1_lut, arma::fmat& toa_rad_
 	uword idx_us_uv_dd = idx_us_dv_ud + idx_filter_dem;
 	uword idx_us_uv_ud = idx_us_uv_dd + idx_filter_dem;
 
-	//---------ÅÐ¶ÏÇç¿Õ£¬ÒÔÊÓ¾à20kmÎª±ê×¼-------------------
-	//Çç¿ÕºÍ¶àÔÆÖ±½Ó¸øµ½Ö¸¶¨µÄindex£¬±Èfind¸ü¿ì£¬Çç¿ÕÊÇVIS=20£¬COD=0; ¶àÔÆÊÇVIS=20£¬COD=60
+	//---------ï¿½Ð¶ï¿½ï¿½ï¿½Õ£ï¿½ï¿½ï¿½ï¿½Ó¾ï¿½20kmÎªï¿½ï¿½×¼-------------------
+	//ï¿½ï¿½ÕºÍ¶ï¿½ï¿½ï¿½Ö±ï¿½Ó¸ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½indexï¿½ï¿½ï¿½ï¿½findï¿½ï¿½ï¿½ì£¬ï¿½ï¿½ï¿½ï¿½ï¿½VIS=20ï¿½ï¿½COD=0; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VIS=20ï¿½ï¿½COD=60
 	//--MODIS--//
 	//uword idx_clear_st = 36; 
 	//uword idx_clear_ed = 41;
@@ -965,9 +965,9 @@ int ahi_swdr::classify_atmos(arma::fmat& toa_rad_band1_lut, arma::fmat& toa_rad_
 	toa_rad_band7_lut_clear.rows(span(idx_ds_dv_dd, idx_ds_dv_dd + idx_filter_dem - 1)) = band7_clear_sub;
 
 	//===================================================================
-	//ºñÔÆ
+	//ï¿½ï¿½ï¿½ï¿½
 	//uvec idx_cloudy = { 207,221,235 };//modis
-	uvec idx_cloudy = { 243,257,271 }; //FY-3D£¬¼ÓÁËÇç¿ÕµÄvis
+	uvec idx_cloudy = { 243,257,271 }; //FY-3Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½vis
 	//------------------------------------------
 
 	//band1
@@ -1119,20 +1119,20 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	uword idx_us_uv_dd = idx_us_dv_ud + idx_filter_dem;
 	uword idx_us_uv_ud = idx_us_uv_dd + idx_filter_dem;
 
-	//´ËlutÎª½Ç¶È¹ýÂËºóµÄ²éÕÒ±í
+	//ï¿½ï¿½lutÎªï¿½Ç¶È¹ï¿½ï¿½Ëºï¿½Ä²ï¿½ï¿½Ò±ï¿½
 	//=========================================================================
 
 	fvec COD = lut.col(4);
 	//===============================================					
-	//°´½Ç¶ÈÇÐ¸îºóµÄ×Ó±ílut£¬ÔÙ°´»ýÑ©Ö¸ÊýÇÐ¸î
-	//¶ÁÈ¡¶à²¨¶ÎÐÅÏ¢
+	//ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½Ó±ï¿½lutï¿½ï¿½ï¿½Ù°ï¿½ï¿½ï¿½Ñ©Ö¸ï¿½ï¿½ï¿½Ð¸ï¿½
+	//ï¿½ï¿½È¡ï¿½à²¨ï¿½ï¿½ï¿½ï¿½Ï¢
 	//-----------multiband-----------------------
 	//--MODIS------------------------------------
 	//const fvec i0_band1 = lut.col(5); //band1
 	//const fvec rho_band1 = lut.col(6);
 	//const fvec complex_var_band1 = lut.col(7);
 
-	// //band2Ìø¹ý
+	// //band2ï¿½ï¿½ï¿½ï¿½
 
 	//const fvec i0_band3 = lut.col(8); // band3
 	//const fvec rho_band3 = lut.col(9);
@@ -1143,12 +1143,12 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	//const fvec complex_var_band4 = lut.col(13);
 
 	//---------------------------------------------
-	//FY-3D,µÚ1£¬2²¨¶ÎºÍµÚ3,4²¨¶ÎÊ±Ïà·´µÄ(£¡£¡´úÂë²»±ä£¬±ä²éÕÒ±í¼´¿É£©
+	//FY-3D,ï¿½ï¿½1ï¿½ï¿½2ï¿½ï¿½ï¿½ÎºÍµï¿½3,4ï¿½ï¿½ï¿½ï¿½Ê±ï¿½à·´ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½É£ï¿½
 	const fvec i0_band1 = lut.col(5); //band1
 	const fvec rho_band1 = lut.col(6);
 	const fvec complex_var_band1 = lut.col(7);
 
-	//band2Ìø¹ý
+	//band2ï¿½ï¿½ï¿½ï¿½
 
 	const fvec i0_band3 = lut.col(8); // band3
 	const fvec rho_band3 = lut.col(9);
@@ -1159,7 +1159,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	const fvec complex_var_band4 = lut.col(13);
 
 	//---------------------------------------------
-	//band5Ìø¹ý
+	//band5ï¿½ï¿½ï¿½ï¿½
 
 	const fvec i0_band6 = lut.col(14); //band6
 	const fvec rho_band6 = lut.col(15);
@@ -1170,7 +1170,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	const fvec complex_var_band7 = lut.col(19);
 
 	//================================================================
-	//²éÕÒ±íµÄÁÐ×é³É¿é
+	//ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½
 	const uword nrows_lut_tile = i0_band1.n_rows;
 	const uword ncols_lut_tile = toa_rad_b1_sub_v.n_elem;  //toa_rad_b3_sub_v.n_elem;
 	//=====toa_rad(multi bands)========
@@ -1224,7 +1224,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	fmat complex_var_band7_tile(nrows_lut_tile, ncols_lut_tile, arma::fill::zeros);
 	complex_var_band7_tile.each_col() = complex_var_band7;
 
-	//-----¼ÆËãÃ¿¸ö²¨¶ÎµÄtoa_radiance---------
+	//-----ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½toa_radiance---------
 	fmat i0x_band1 = trans(1 / band1_ref_sub_v) - rho_band1_tile.each_row();
 	fmat toa_rad_band1_lut_tile = i0_band1_tile + (1 / i0x_band1) % complex_var_band1_tile;
 
@@ -1242,7 +1242,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 
 	//======================================================
 
-	//µ±Ç°×Ó±íµÄÐÐÊý£¬°üÀ¨up/dw SZA, up/dw VZA, up/dw DEM, Ã¿Ò»¸ö×Ó¿é¶ÔÓ¦Ò»¸öÇç¿Õ£¬Ò»¸ö¶àÔÆÖµ
+	//ï¿½ï¿½Ç°ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½up/dw SZA, up/dw VZA, up/dw DEM, Ã¿Ò»ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½Ó¦Ò»ï¿½ï¿½ï¿½ï¿½Õ£ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	fmat toa_rad_band1_lut_clear_tile(nrows_lut_tile, ncols_lut_tile, arma::fill::zeros);
 	fmat toa_rad_band3_lut_clear_tile(nrows_lut_tile, ncols_lut_tile, arma::fill::zeros);
 	fmat toa_rad_band6_lut_clear_tile(nrows_lut_tile, ncols_lut_tile, arma::fill::zeros);
@@ -1253,16 +1253,16 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	fmat toa_rad_band7_lut_cloudy_tile(nrows_lut_tile, ncols_lut_tile, arma::fill::zeros);
 
 
-	//¼ÆËãÇç¿ÕºÍºñÔÆ²¨¶Î
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÕºÍºï¿½ï¿½Æ²ï¿½ï¿½ï¿½
 	int ok1 = classify_atmos(toa_rad_band1_lut_tile, toa_rad_band3_lut_tile, toa_rad_band6_lut_tile, toa_rad_band7_lut_tile,
 		toa_rad_band1_lut_clear_tile, toa_rad_band3_lut_clear_tile, toa_rad_band6_lut_clear_tile, toa_rad_band7_lut_clear_tile,
 		toa_rad_band1_lut_cloudy_tile, toa_rad_band3_lut_cloudy_tile, toa_rad_band7_lut_cloudy_tile);
 
 	//======================================================
-	//²éÕÒ±íµÄÑ©Ö¸ÊýÖµ(»ýÑ©Ö¸ÊýµÄLUT·Ö¿éÖ»ÄÜÑ­»·Íê³É£©¸ø¶¨3¸öflag£¬Ã¿¸öflagÓÐ²»Í¬µÄÐÎÊ½
-	fmat toa_rad_ndsi_lut_tile = (toa_rad_band4_lut_tile / 593.84 - toa_rad_band6_lut_tile / 76.53) / (toa_rad_band4_lut_tile / 593.84 + toa_rad_band6_lut_tile / 76.53);//ÑéÖ¤¹ý
+	//ï¿½ï¿½ï¿½Ò±ï¿½ï¿½ï¿½Ñ©Ö¸ï¿½ï¿½Öµ(ï¿½ï¿½Ñ©Ö¸ï¿½ï¿½ï¿½ï¿½LUTï¿½Ö¿ï¿½Ö»ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½flagï¿½ï¿½Ã¿ï¿½ï¿½flagï¿½Ð²ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ê½
+	fmat toa_rad_ndsi_lut_tile = (toa_rad_band4_lut_tile / 593.84 - toa_rad_band6_lut_tile / 76.53) / (toa_rad_band4_lut_tile / 593.84 + toa_rad_band6_lut_tile / 76.53);//ï¿½ï¿½Ö¤ï¿½ï¿½
 
-	//------------¼ÆËã×ÓLUTµÄSWDR & PAR UVA UVB TOA_albedo-------------------------
+	//------------ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LUTï¿½ï¿½SWDR & PAR UVA UVB TOA_albedo-------------------------
 	//=======swdr=======
 	const fvec f0 = lut.col(20) + lut.col(21);
 	const fvec f_rho = lut.col(22);
@@ -1348,26 +1348,26 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	f_toa_dw_flux_tile.each_col() = f_toa_dw_flux;
 
 	//-----------------------------------------
-	//====×Ü·øÉä====
+	//====ï¿½Ü·ï¿½ï¿½ï¿½====
 	fmat f0x = trans(sw_albedo_sub_v) % f_rho_tile.each_row();
 	fmat swdr_tile = f0_tile + f0x / (1 - f0x) % f_complex_tile;
 
-	//====PAR×Ü·øÉä====
+	//====PARï¿½Ü·ï¿½ï¿½ï¿½====
 	fmat f0x_par = trans(vis_albedo_sub_v) % f_rho_par_tile.each_row();
 	fmat par_tile = f0_par_tile + f0x_par / (1 - f0x_par) % f_complex_par_tile;
 
-	//====UVA×Ü·øÉä====
+	//====UVAï¿½Ü·ï¿½ï¿½ï¿½====
 	fmat f0x_uva = trans(vis_albedo_sub_v) % f_rho_uva_tile.each_row();
 	fmat uva_tile = f0_uva_tile + f0x_uva / (1 - f0x_uva) % f_complex_uva_tile;
 
-	//====UVB×Ü·øÉä====
+	//====UVBï¿½Ü·ï¿½ï¿½ï¿½====
 	fmat f0x_uvb = trans(vis_albedo_sub_v) % f_rho_uvb_tile.each_row();
 	fmat uvb_tile = f0_uvb_tile + f0x_uvb / (1 - f0x_uvb) % f_complex_uvb_tile;
 
 	//====TOA_albedo====
 	fmat f0x_albedo = trans(1 / sw_albedo_sub_v) - f_rho_albedo_tile.each_row();
 	fmat toa_albedo_tile = f0_albedo_tile + (1 / f0x_albedo) % f_complex_albedo_tile;
-	fmat toa_up_flux_tile = toa_albedo_tile % f_toa_dw_flux_tile; //ÐèÒªÈ·¶¨ÊÇ·ñÊÇÃ¿colÏà³Ë
+	fmat toa_up_flux_tile = toa_albedo_tile % f_toa_dw_flux_tile; //ï¿½ï¿½ÒªÈ·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ã¿colï¿½ï¿½ï¿½
 
 	//========================================================================
 	fvec ref_mean_sub_v = (band1_ref_sub_v + band3_ref_sub_v) / 2;
@@ -1384,7 +1384,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	fvec us_uv_toa_up_flux;
 	fvec us_uv_rho;
 
-	//-------²åÖµus_uv_DEM----------------------------
+	//-------ï¿½ï¿½Öµus_uv_DEM----------------------------
 	int flag = interp_dem(dem_sub_v, toa_rad_b1_sub_v, toa_rad_b3_sub_v, toa_rad_b6_sub_v, toa_rad_b7_sub_v,
 		toa_rad_band1_lut_tile, toa_rad_band3_lut_tile, toa_rad_band6_lut_tile, toa_rad_band7_lut_tile,
 		toa_rad_band1_lut_clear_tile, toa_rad_band3_lut_clear_tile, toa_rad_band6_lut_clear_tile, toa_rad_band7_lut_clear_tile,
@@ -1436,7 +1436,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 		fvec us_dv_toa_up_flux;
 		fvec us_dv_rho;
 
-		//-------²åÖµus_dv_DEM----------------------------
+		//-------ï¿½ï¿½Öµus_dv_DEM----------------------------
 
 		flag = interp_dem(dem_sub_v, toa_rad_b1_sub_v, toa_rad_b3_sub_v, toa_rad_b6_sub_v, toa_rad_b7_sub_v,
 			toa_rad_band1_lut_tile, toa_rad_band3_lut_tile, toa_rad_band6_lut_tile, toa_rad_band7_lut_tile,
@@ -1504,7 +1504,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	fvec ds_uv_toa_up_flux;
 	fvec ds_uv_rho;
 
-	//-------²åÖµds_uv_DEM----------------------------
+	//-------ï¿½ï¿½Öµds_uv_DEM----------------------------
 
 	flag = interp_dem(dem_sub_v, toa_rad_b1_sub_v, toa_rad_b3_sub_v, toa_rad_b6_sub_v, toa_rad_b7_sub_v,
 		toa_rad_band1_lut_tile, toa_rad_band3_lut_tile, toa_rad_band6_lut_tile, toa_rad_band7_lut_tile,
@@ -1552,7 +1552,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 		fvec ds_dv_toa_up_flux;
 		fvec ds_dv_rho;
 
-		//-------²åÖµds_dv_DEM----------------------------
+		//-------ï¿½ï¿½Öµds_dv_DEM----------------------------
 
 		flag = interp_dem(dem_sub_v, toa_rad_b1_sub_v, toa_rad_b3_sub_v, toa_rad_b6_sub_v, toa_rad_b7_sub_v,
 			toa_rad_band1_lut_tile, toa_rad_band3_lut_tile, toa_rad_band6_lut_tile, toa_rad_band7_lut_tile,
@@ -1622,7 +1622,7 @@ int ahi_swdr::get_SWDR(arma::fmat lut, arma::fvec& sza_sub_v, arma::fvec& vza_su
 	fvec itp_rho = dw_sza_rho + slope % (sza_sub_v - m_dw_sza);
 
 	// ----------------------------------------------------
-	//×îÖÕ¼ÆËã½á¹û
+	//ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	//SWDR
 	derived_swdr = itp_swdr;
 	derived_dir = itp_swdir;
@@ -1644,7 +1644,7 @@ int ahi_swdr::read_lut(const std::string& lut_file, const arma::uword& lut_cols)
 
 	namespace fs = std::filesystem;
 
-	const size_t ncols = lut_cols;  //LUTµÄÁÐÊý
+	const size_t ncols = lut_cols;  //LUTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	if (lut_file.length() == 0)
 	{
@@ -1689,7 +1689,7 @@ int ahi_swdr::read_lut(const std::string& lut_file, const arma::uword& lut_cols)
 	fid.close();
 
 	//===============================================================
-	//// calculate ncols,ÓÃÓÚ×Ô¶¯»¯¼ÆËãLUTµÄÁÐ£¬µ«ÊÇ¸ø¶¨Öµ¸ü¿ì
+	//// calculate ncols,ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½LUTï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½
 	//string line_head = data[0];
 	//vector<string> pack_head;
 	//boost::split(pack_head, line_head, boost::is_any_of(" "), boost::token_compress_on);
@@ -1712,38 +1712,51 @@ int ahi_swdr::read_lut(const std::string& lut_file, const arma::uword& lut_cols)
 	const size_t nrows = data.size();
 	m_lut = arma::zeros<arma::fmat>(nrows, ncols);
 
-	for (size_t ir = 0; ir < nrows; ir++)
-	{
-		const string line = data[ir];
+    try {
+        for (size_t ir = 0; ir < nrows; ir++)
+        {
+            const string line = data[ir];
 
-		vector<string> pack;
-		boost::split(pack, line, boost::is_any_of(" "), boost::token_compress_on);
+            vector<string> pack;
+            boost::split(pack, line, boost::is_any_of(" "), boost::token_compress_on);
 
-		// Remove the invalid element
-		vector<string> pack2;
-		for (auto& item : pack)
-		{
-			boost::trim(item);
-			if (item.length() > 0)
-				pack2.emplace_back(item);
-		}
+            // Remove the invalid element
+            vector<string> pack2;
+            for (auto& item : pack)
+            {
+                boost::trim(item);
+                if (item.length() > 0)
+                    pack2.emplace_back(item);
+            }
 
-		if (pack2.size() != ncols)
-		{
-			cout << "The LUT data is wrong. Only " << pack2.size() << " elements.\n";
-			for (const auto& ele : pack2)
-				cout << ele << " ";
-			cout << endl;
-			return 1;
-		}
+            if (pack2.size() != ncols)
+            {
+                cout << "The LUT data is wrong. Only " << pack2.size() << " elements.\n";
+                for (const auto& ele : pack2)
+                    cout << ele << " ";
+                cout << endl;
+                return 1;
+            }
 
-		for (size_t ic = 0; ic < pack2.size(); ic++)
-		{
-			tmp = pack2[ic];
-			float val = std::stof(tmp);
-			m_lut(ir, ic) = val;
-		}
-	}
+            for (size_t ic = 0; ic < pack2.size(); ic++)
+            {
+                tmp = pack2[ic];
+                try {
+                    double val = std::stod(tmp);
+                    m_lut(ir, ic) = static_cast<float>(val);
+                } catch (const std::invalid_argument& e) {
+                    cerr << "Invalid float format: " << tmp << " in line: " << line << endl;
+                    return 1;
+                } catch (const std::out_of_range& e) {
+                    cerr << "Float value out of range: " << tmp << " in line: " << line << endl;
+                    return 1;
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        cerr << "Exception occurred: " << e.what() << endl;
+        return 1;
+    }
 
 	if (!m_lut.save(lut_bin_file.u8string()))
 		return 1;
@@ -1753,7 +1766,7 @@ int ahi_swdr::read_lut(const std::string& lut_file, const arma::uword& lut_cols)
 }
 
 
-//¿ÉÒÔÊÇsza, Ò²¿ÉÒÔÊÇvza
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sza, Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vza
 int ahi_swdr::filter_sza(float sza_min, float sza_max, arma::uword& up_sza_idx, arma::uword& dw_sza_idx, const arma::fvec& angle_list, arma::uword m_angle_min, arma::uword m_angle_max)
 {
 	using namespace std;
@@ -1761,7 +1774,7 @@ int ahi_swdr::filter_sza(float sza_min, float sza_max, arma::uword& up_sza_idx, 
 	uvec idx;
 
 	// -------------------------------------------------------------------
-	//(1)ÕÒ×î´óÖµµÄup_index
+	//(1)ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½up_index
 	if (sza_max > m_angle_max) // sza > max
 	{
 		idx = find(angle_list == m_angle_max);
@@ -1784,7 +1797,7 @@ int ahi_swdr::filter_sza(float sza_min, float sza_max, arma::uword& up_sza_idx, 
 		up_sza_idx = idx(0);		
 	}
 
-	//(2)ÕÒ×îÐ¡ÖµµÄdw_index
+	//(2)ï¿½ï¿½ï¿½ï¿½Ð¡Öµï¿½ï¿½dw_index
 	if (sza_min < m_angle_min) // sza < min 
 	{
 
@@ -1830,7 +1843,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 	const float f_std = m_f_std;
 
 	//=========================================================
-	//LUT·Ö¿éÖÐ·øÉäµÄ¼ÆËãÖµ
+	//LUTï¿½Ö¿ï¿½ï¿½Ð·ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Öµ
 	//// (1) Interpolation - up_DEM
 	fmat swdr_lut_dem1_mat = swdr_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fvec swdr_dir_lut_dem1_v = swdr_dir_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
@@ -1853,23 +1866,23 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 	fvec rho_lut_dem2_v = f_rho(span(idx_dw_dem, idx_dw_dem + idx_filter_dem - 1));
 	fvec COD_dem2_v = COD(span(idx_dw_dem, idx_dw_dem + idx_filter_dem - 1));
 
-	//»ýÑ©ºÍ´óÆø·Ö¿é=======================================
+	//ï¿½ï¿½Ñ©ï¿½Í´ï¿½ï¿½ï¿½ï¿½Ö¿ï¿½=======================================
 	//dem1-------------------------------------------------
-	//»ýÑ©toa_rad
+	//ï¿½ï¿½Ñ©toa_rad
 	fmat toa_rad_ndsi_dem1_mat = toa_rad_ndsi_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 
-	//Çç¿Õtoa_rad
-	fmat toa_rad_band1_clear_dem1_mat = toa_rad_band1_lut_clear_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));//ÆäÊµÒ»¸öidx_up_dem¶ÔÓ¦µÄÓ¦¸ÃÈ«ÊÇÒ»¸öÖµ
+	//ï¿½ï¿½ï¿½toa_rad
+	fmat toa_rad_band1_clear_dem1_mat = toa_rad_band1_lut_clear_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));//ï¿½ï¿½ÊµÒ»ï¿½ï¿½idx_up_demï¿½ï¿½Ó¦ï¿½ï¿½Ó¦ï¿½ï¿½È«ï¿½ï¿½Ò»ï¿½ï¿½Öµ
 	fmat toa_rad_band3_clear_dem1_mat = toa_rad_band3_lut_clear_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat toa_rad_band6_clear_dem1_mat = toa_rad_band6_lut_clear_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat toa_rad_band7_clear_dem1_mat = toa_rad_band7_lut_clear_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 
-	//¶àÔÆtoa_rad
+	//ï¿½ï¿½ï¿½ï¿½toa_rad
 	fmat toa_rad_band1_cloudy_dem1_mat = toa_rad_band1_lut_cloudy_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat toa_rad_band3_cloudy_dem1_mat = toa_rad_band3_lut_cloudy_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat toa_rad_band7_cloudy_dem1_mat = toa_rad_band7_lut_cloudy_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 
-	//lutÄ£ÄâµÄtoa_rad
+	//lutÄ£ï¿½ï¿½ï¿½toa_rad
 	fmat finded_toa_rad_band1_dem1_mat = toa_rad_band1_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat finded_toa_rad_band3_dem1_mat = toa_rad_band3_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
 	fmat finded_toa_rad_band6_dem1_mat = toa_rad_band6_lut_tile.rows(span(idx_up_dem, idx_up_dem + idx_filter_dem - 1));
@@ -1894,7 +1907,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 	fmat finded_toa_rad_band7_dem2_mat = toa_rad_band7_lut_tile.rows(span(idx_dw_dem, idx_dw_dem + idx_filter_dem - 1));
 
 ////------------------------------------------------------------
-	//¼ÆËãµÄ½á¹û
+	//ï¿½ï¿½ï¿½ï¿½Ä½ï¿½ï¿½
 	fvec finded_swdr_sub_v_dem1(toa_rad_b3_sub_v.n_rows, arma::fill::zeros);
 	fvec finded_swdr_dir_sub_v_dem1(toa_rad_b3_sub_v.n_rows, arma::fill::zeros);
 	fvec finded_par_sub_v_dem1(toa_rad_b3_sub_v.n_rows, arma::fill::zeros);
@@ -1915,13 +1928,13 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 	////===================================================================================================================================
 	////========================================================================================================
-	////¿ÉÒÔ¸Ä¶ÁÈ¡LUTµÄ·½Ê½£¬SZAÒ»±é£¬VZA¶ÁÈ¡SZAµÄ£¬ÏÂÃæ¾ÍÏñËØ¼ÆËã
+	////ï¿½ï¿½ï¿½Ô¸Ä¶ï¿½È¡LUTï¿½Ä·ï¿½Ê½ï¿½ï¿½SZAÒ»ï¿½é£¬VZAï¿½ï¿½È¡SZAï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½
 	for (uword i = 0; i < toa_rad_b3_sub_v.n_rows; i++)
 	{
 		int toa_avg_num = m_toa_avg_num;
 
 		//-------------------------------------------------------
-		//¹Û²âÖµ
+		//ï¿½Û²ï¿½Öµ
 		float toa_rad_b1 = toa_rad_b1_sub_v(i);
 		float toa_rad_b3 = toa_rad_b3_sub_v(i);
 		float toa_rad_b6 = toa_rad_b6_sub_v(i);
@@ -1934,29 +1947,29 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		float ref_band7 = ref_band7_sub_v(i);
 		float sza = sza_sub_v(i);
 
-		//////-----¼ÆËãÃ¿¸ö²¨¶ÎµÄtoa_radiance---------
+		//////-----ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½toa_radiance---------
 		//-----dem1---------------------------
-		//»ýÑ©toa_rad
+		//ï¿½ï¿½Ñ©toa_rad
 		fvec toa_rad_ndsi_dem1 = toa_rad_ndsi_dem1_mat.col(i);
 
-		//Çç¿Õtoa_rad
+		//ï¿½ï¿½ï¿½toa_rad
 		float toa_rad_b1_clear_dem1 = mean(toa_rad_band1_clear_dem1_mat.col(i));
 		float toa_rad_b3_clear_dem1 = mean(toa_rad_band3_clear_dem1_mat.col(i));
 		float toa_rad_b6_clear_dem1 = mean(toa_rad_band6_clear_dem1_mat.col(i));
 		float toa_rad_b7_clear_dem1 = mean(toa_rad_band7_clear_dem1_mat.col(i));
 
-		//¶àÔÆtoa_rad
+		//ï¿½ï¿½ï¿½ï¿½toa_rad
 		float toa_rad_b1_cloudy_dem1 = mean(toa_rad_band1_cloudy_dem1_mat.col(i));
 		float toa_rad_b3_cloudy_dem1 = mean(toa_rad_band3_cloudy_dem1_mat.col(i));
 		float toa_rad_b7_cloudy_dem1 = mean(toa_rad_band7_cloudy_dem1_mat.col(i));
 
-		//lutÄ£ÄâµÄtoa_rad
+		//lutÄ£ï¿½ï¿½ï¿½toa_rad
 		fvec finded_toa_rad_band1_dem1 = finded_toa_rad_band1_dem1_mat.col(i);
 		fvec finded_toa_rad_band3_dem1 = finded_toa_rad_band3_dem1_mat.col(i);
 		fvec finded_toa_rad_band6_dem1 = finded_toa_rad_band6_dem1_mat.col(i);
 		fvec finded_toa_rad_band7_dem1 = finded_toa_rad_band7_dem1_mat.col(i);
 
-		////×Ü·øÉä
+		////ï¿½Ü·ï¿½ï¿½ï¿½
 		fvec swdr_lut_dem1 = swdr_lut_dem1_mat.col(i);
 		fvec par_lut_dem1 = par_lut_dem1_mat.col(i);
 		fvec uva_lut_dem1 = uva_lut_dem1_mat.col(i);
@@ -1964,27 +1977,27 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		fvec toa_up_flux_lut_dem1 = toa_up_flux_lut_dem1_mat.col(i);
 
 		//-----dem2---------------------------
-		//»ýÑ©toa_rad
+		//ï¿½ï¿½Ñ©toa_rad
 		fvec toa_rad_ndsi_dem2 = toa_rad_ndsi_dem2_mat.col(i);
 
-		//Çç¿Õtoa_rad
+		//ï¿½ï¿½ï¿½toa_rad
 		float toa_rad_b1_clear_dem2 = mean(toa_rad_band1_clear_dem2_mat.col(i));
 		float toa_rad_b3_clear_dem2 = mean(toa_rad_band3_clear_dem2_mat.col(i));
 		float toa_rad_b6_clear_dem2 = mean(toa_rad_band6_clear_dem2_mat.col(i));
 		float toa_rad_b7_clear_dem2 = mean(toa_rad_band7_clear_dem2_mat.col(i));
 
-		//¶àÔÆtoa_rad
+		//ï¿½ï¿½ï¿½ï¿½toa_rad
 		float toa_rad_b1_cloudy_dem2 = mean(toa_rad_band1_cloudy_dem2_mat.col(i));
 		float toa_rad_b3_cloudy_dem2 = mean(toa_rad_band3_cloudy_dem2_mat.col(i));
 		float toa_rad_b7_cloudy_dem2 = mean(toa_rad_band7_cloudy_dem2_mat.col(i));
 
-		//lutÄ£ÄâµÄtoa_rad
+		//lutÄ£ï¿½ï¿½ï¿½toa_rad
 		fvec finded_toa_rad_band1_dem2 = finded_toa_rad_band1_dem2_mat.col(i);
 		fvec finded_toa_rad_band3_dem2 = finded_toa_rad_band3_dem2_mat.col(i);
 		fvec finded_toa_rad_band6_dem2 = finded_toa_rad_band6_dem2_mat.col(i);
 		fvec finded_toa_rad_band7_dem2 = finded_toa_rad_band7_dem2_mat.col(i);
 		
-		////×Ü·øÉä
+		////ï¿½Ü·ï¿½ï¿½ï¿½
 		fvec swdr_lut_dem2 = swdr_lut_dem2_mat.col(i);
 		fvec par_lut_dem2 = par_lut_dem2_mat.col(i);
 		fvec uva_lut_dem2 = uva_lut_dem2_mat.col(i);
@@ -1992,23 +2005,23 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		fvec toa_up_flux_lut_dem2 = toa_up_flux_lut_dem2_mat.col(i);
 
 		//========================================================================
-		//¸ù¾Ý»ýÑ©Ö¸Êý·Ö¿é
+		//ï¿½ï¿½ï¿½Ý»ï¿½Ñ©Ö¸ï¿½ï¿½ï¿½Ö¿ï¿½
 		float vstd_ndsi = stddev(toa_rad_ndsi_lut_tile.col(i));
 
-		uvec idx_snow_dem1 = find(toa_rad_ndsi_dem1 <= (lut_diff_max + 5 * vstd_ndsi) && toa_rad_ndsi_dem1 >= (lut_diff_min - 5 * vstd_ndsi)); //»ýÑ©·Ö¿é¹ýÂË
+		uvec idx_snow_dem1 = find(toa_rad_ndsi_dem1 <= (lut_diff_max + 5 * vstd_ndsi) && toa_rad_ndsi_dem1 >= (lut_diff_min - 5 * vstd_ndsi)); //ï¿½ï¿½Ñ©ï¿½Ö¿ï¿½ï¿½ï¿½ï¿½
 		//
 		if (idx_snow_dem1.n_elem == 0)
 		{
 			idx_snow_dem1 = find(toa_rad_ndsi_dem1 <= 1 && toa_rad_ndsi_dem1 >= -1);
 		}
 		//
-		//ÅÐ¶Ï×î´óµÄtoa_avg_numÖµ
+		//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½toa_avg_numÖµ
 		if (idx_snow_dem1.n_elem < toa_avg_num)
 		{
 			toa_avg_num = idx_snow_dem1.n_elem;
 		}
 		//
-		//lutÄ£ÄâµÄtoa_rad
+		//lutÄ£ï¿½ï¿½ï¿½toa_rad
 		finded_toa_rad_band1_dem1 = finded_toa_rad_band1_dem1(idx_snow_dem1);
 		finded_toa_rad_band3_dem1 = finded_toa_rad_band3_dem1(idx_snow_dem1);
 		finded_toa_rad_band6_dem1 = finded_toa_rad_band6_dem1(idx_snow_dem1);
@@ -2033,13 +2046,13 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			idx_snow_dem2 = find(toa_rad_ndsi_dem2 <= 1 && toa_rad_ndsi_dem2 >= -1);
 		}
 		//
-		//ÅÐ¶Ï×î´óµÄtoa_avg_numÖµ
+		//ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½toa_avg_numÖµ
 		if (idx_snow_dem2.n_elem < toa_avg_num)
 		{
 			toa_avg_num = idx_snow_dem2.n_elem;
 		}
 		//
-		//lutÄ£ÄâµÄtoa_rad
+		//lutÄ£ï¿½ï¿½ï¿½toa_rad
 		finded_toa_rad_band1_dem2 = finded_toa_rad_band1_dem2(idx_snow_dem2);
 		finded_toa_rad_band3_dem2 = finded_toa_rad_band3_dem2(idx_snow_dem2);
 		finded_toa_rad_band6_dem2 = finded_toa_rad_band6_dem2(idx_snow_dem2);
@@ -2056,11 +2069,11 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		fvec COD_dem2 = COD_dem2_v(idx_snow_dem2);
 
 		//========================================================================
-		//¹Û²âÖµtoa_rad
+		//ï¿½Û²ï¿½Öµtoa_rad
 		fvec toa_rad = { toa_rad_b1, toa_rad_b3, toa_rad_b7 };
 		fvec toa_rad_cloud = { toa_rad_b3, toa_rad_b6, toa_rad_b7 };
 
-		//Ä£ÄâÖµtoa_rad
+		//Ä£ï¿½ï¿½Öµtoa_rad
 		fmat toa_rad_lut_dem1 = zeros<fmat>(finded_toa_rad_band3_dem1.n_rows, 3);
 		toa_rad_lut_dem1.col(0) = finded_toa_rad_band1_dem1;
 		toa_rad_lut_dem1.col(1) = finded_toa_rad_band3_dem1;
@@ -2071,7 +2084,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		toa_rad_lut_dem2.col(1) = finded_toa_rad_band3_dem2;
 		toa_rad_lut_dem2.col(2) = finded_toa_rad_band7_dem2;
 
-		//Ä£ÄâÖµtoa_rad,ºñÔÆ
+		//Ä£ï¿½ï¿½Öµtoa_rad,ï¿½ï¿½ï¿½ï¿½
 		fmat toa_rad_lut_dem1_cloud = zeros<fmat>(finded_toa_rad_band3_dem1.n_rows, 3);
 		toa_rad_lut_dem1_cloud.col(0) = finded_toa_rad_band3_dem1;
 		toa_rad_lut_dem1_cloud.col(1) = finded_toa_rad_band6_dem1;
@@ -2083,20 +2096,20 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		toa_rad_lut_dem2_cloud.col(2) = finded_toa_rad_band7_dem2;
 		//==============================================================
 
-		//ÅÐ¶Ï´óÆøÌõ¼þ
-		//0-²»È·¶¨£¬1-Çç¿Õ£¬2-60ÒÔÏÂ±¡ÔÆ£¬3-ºñÔÆ
+		//ï¿½Ð¶Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//0-ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½1-ï¿½ï¿½Õ£ï¿½2-60ï¿½ï¿½ï¿½Â±ï¿½ï¿½Æ£ï¿½3-ï¿½ï¿½ï¿½ï¿½
 		//dem1
-		uword clear_flag_dem1 = 0;//Çç¿Õ
-		//Çç¿Õ
+		uword clear_flag_dem1 = 0;//ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½
 		float toa_rad_change_dem1 = (abs(toa_rad_b1 - toa_rad_b1_clear_dem1) / toa_rad_b1_clear_dem1 + abs(toa_rad_b3 - toa_rad_b3_clear_dem1) / toa_rad_b3_clear_dem1
 			+ abs(toa_rad_b7 - toa_rad_b7_clear_dem1) / toa_rad_b7_clear_dem1) / 3;
 		if (toa_rad_change_dem1 >= 0.2)
 		{
-			clear_flag_dem1 = 2; //³õ²½Îª¶àÔÆ
+			clear_flag_dem1 = 2; //ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		}
 
-		//ºñÔÆÇé¿ö==================================
-		//ÆäÖÐÂú×ãºñÔÆÌõ¼þµÄ±ê¼ÇÎªºñÔÆ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½==================================
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		if (ref_mean < 0.60 && (toa_rad_b1 > toa_rad_b1_cloudy_dem1*0.95) && (toa_rad_b3 > toa_rad_b3_cloudy_dem1*0.95) && (toa_rad_b7 < toa_rad_b7_cloudy_dem1))
 		{
 
@@ -2105,18 +2118,18 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 		//======================================================================
 		//----------------------------------------------------------------------
-		//dem2,³õ²½ÅÐ¶ÏÇç¿Õ¶àÔÆ=================================================
-		uword clear_flag_dem2 = 0;//flagÎª1±ê¼ÇÎªÇç¿Õ
-		//Çç¿Õ
+		//dem2,ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Õ¶ï¿½ï¿½ï¿½=================================================
+		uword clear_flag_dem2 = 0;//flagÎª1ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½
 		float toa_rad_change_dem2 = (abs(toa_rad_b1 - toa_rad_b1_clear_dem2) / toa_rad_b1_clear_dem2 + abs(toa_rad_b3 - toa_rad_b3_clear_dem2) / toa_rad_b3_clear_dem2
 			+ abs(toa_rad_b7 - toa_rad_b7_clear_dem2) / toa_rad_b7_clear_dem2) / 3;
 		if (toa_rad_change_dem2 >= 0.2)
 		{
-			clear_flag_dem2 = 2; //³õ²½Îª¶àÔÆ
+			clear_flag_dem2 = 2; //ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		}
 
-		//ºñÔÆÇé¿ö======================================================
-		//ÆäÖÐÂú×ãºñÔÆÌõ¼þµÄ±ê¼ÇÎªºñÔÆ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½======================================================
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		if (ref_mean < 0.60 && (toa_rad_b1 > toa_rad_b1_cloudy_dem2*0.95) && (toa_rad_b3 > toa_rad_b3_cloudy_dem2*0.95) && (toa_rad_b7 < toa_rad_b7_cloudy_dem2))
 		{
 			clear_flag_dem2 = 3;
@@ -2125,7 +2138,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		//========================================================================================================
 		//cout << clear_flag_dem1 << endl;
 		//cout << clear_flag_dem2 << endl;
-		////-----Ô­Ê¼µ¥²¨¶Î£¬ÓÃ¾ø¶ÔÖµ----------------------------------
+		////-----Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Î£ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½Öµ----------------------------------
 		fvec tmpv_dem1 = abs(finded_toa_rad_band3_dem1 - toa_rad_b3); //dw_dem(dem1)
 		fvec tmpv_dem2 = abs(finded_toa_rad_band3_dem2 - toa_rad_b3); //up_dem(dem2)
 		if (tmpv_dem1.has_nan() || tmpv_dem1.has_nan())
@@ -2136,13 +2149,13 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		uvec idx2 = sort_index(tmpv_dem1);
 		idx2 = idx2.head(toa_avg_num);
 
-		//==========================¶à²¨¶ÎËã·¨====================================================================
+		//==========================ï¿½à²¨ï¿½ï¿½ï¿½ã·¨====================================================================
 		uvec idx_total; 
 		uvec idx_dir; 
 		//-----------------------------------------------
-		//·Ö²»Í¬µÄ´óÆøÇé¿ö¼ÆËãidx_totalºÍidx_dir
+		//ï¿½Ö²ï¿½Í¬ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idx_totalï¿½ï¿½idx_dir
 		//-----------------------------------------------
-		if (clear_flag_dem1 == 1) //Çç¿Õ
+		if (clear_flag_dem1 == 1) //ï¿½ï¿½ï¿½
 		{
 			fmat toa_rad_lut_dem1_log = log(toa_rad_lut_dem1);
 			fmat tmpv_dem1_mat = pow((toa_rad_lut_dem1_log.each_row() - trans(log(toa_rad))), 2);
@@ -2156,7 +2169,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			uvec idx1 = sort_index(tmpv_dem1);
 			idx1 = idx1.head(toa_avg_num);
 
-			//ÅÐ¶Ïidx1ÔÚ1ÒÔÄÚ
+			//ï¿½Ð¶ï¿½idx1ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
 			fvec COD_dem1_revise = COD_dem1.rows(idx1);
 			uvec idx1_revise;
 			idx1_revise = find(COD_dem1_revise <= 1);
@@ -2168,7 +2181,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				toa_avg_num_new = toa_avg_num_new + 1;
 				if (toa_avg_num_new > idx1.n_elem)
 				{
-					idx1_revise = find(COD_dem1_revise >= 0); //Ïàµ±ÓÚ²»½øÐÐÐÞÕý£¬¾ÍÊÇidx1±¾Éí
+					idx1_revise = find(COD_dem1_revise >= 0); //ï¿½àµ±ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idx1ï¿½ï¿½ï¿½ï¿½
 					break;
 				}
 
@@ -2179,7 +2192,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 			idx1 = idx1.rows(idx1_revise);
 
-			//idx1Óë½öÓÃÀ¶¹âµÄblue band×ö½»¼¯
+			//idx1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½blue bandï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			uvec idx3 = intersect(idx1, idx2);
 			if (idx3.n_elem > 4)
 			{
@@ -2190,18 +2203,18 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				idx2 = idx1;
 			}
 
-			//idx_total = idx2; //ln+Å·Ê½,blue,½»¼¯£¬×Ü·øÉäºÍÀ¶¹â²¨¶ÎÈ¥½»¼¯
+			//idx_total = idx2; //ln+Å·Ê½,blue,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â²¨ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½
 			idx_total = idx1;
 			idx_dir = idx1; //ln+Å·Ê½
 
 		}
-		else if (clear_flag_dem1 == 3)//ºñÔÆ£¬
+		else if (clear_flag_dem1 == 3)//ï¿½ï¿½ï¿½Æ£ï¿½
 		{
-			//ÐÎ×´£¬cos
-			//¼ÆËãÐÞÕýÖµ
-			float toa_revise0 = mean(toa_rad_cloud);  //¹Û²âÖµ¾ùÖµ	
+			//ï¿½ï¿½×´ï¿½ï¿½cos
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+			float toa_revise0 = mean(toa_rad_cloud);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
-			//ÓàÏÒ
+			//ï¿½ï¿½ï¿½ï¿½
 			fvec cosine_multiband_dem1(toa_rad_lut_dem1_cloud.n_rows, arma::fill::zeros);
 			fmat toa_rad_lut_dem1_cloud_log = log(toa_rad_lut_dem1_cloud);
 			for (uword i = 0; i < toa_rad_lut_dem1_cloud.n_rows; i++)
@@ -2216,12 +2229,12 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			idx_total = idx1;
 			idx_dir = idx1;
 		}
-		else//¶àÔÆ£¬±¡ÔÆ,²»È·¶¨
+		else//ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½È·ï¿½ï¿½
 		{
-			//¼ÆËãÐÞÕýÖµ
-			float toa_revise0 = mean(toa_rad);  //¹Û²âÖµ¾ùÖµ	
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+			float toa_revise0 = mean(toa_rad);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
-			//ÓàÏÒ
+			//ï¿½ï¿½ï¿½ï¿½
 			fvec cosine_multiband_dem1(toa_rad_lut_dem1.n_rows, arma::fill::zeros);
 			fmat toa_rad_lut_dem1_log = log(toa_rad_lut_dem1);
 
@@ -2237,10 +2250,10 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			//====================================
 			if ((ref_band3 < 0.82)&(ref_band3 >= 0.65))
 			{
-				//¼ÆËãÐÞÕýÖµ
-				toa_revise0 = mean(toa_rad_cloud);  //¹Û²âÖµ¾ùÖµ	
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+				toa_revise0 = mean(toa_rad_cloud);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
-				//ÓàÏÒ
+				//ï¿½ï¿½ï¿½ï¿½
 				fvec cosine_multiband_dem1_2(toa_rad_lut_dem1_cloud.n_rows, arma::fill::zeros);
 				fmat toa_rad_lut_dem1_log_2 = log(toa_rad_lut_dem1_cloud);
 
@@ -2255,7 +2268,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			}
 			//====================================
 
-			//ÅÐ¶Ïidx1ÔÚ60ÒÔÄÚ
+			//ï¿½Ð¶ï¿½idx1ï¿½ï¿½60ï¿½ï¿½ï¿½ï¿½
 			fvec COD_dem1_revise = COD_dem1.rows(idx1);
 			uvec idx1_revise;
 			idx1_revise = find(COD_dem1_revise <= 60 && COD_dem1_revise >= 0);
@@ -2267,7 +2280,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				toa_avg_num_new = toa_avg_num_new + 1;
 				if (toa_avg_num_new > idx1.n_elem)
 				{
-					idx1_revise = find(COD_dem1_revise >= 0); //Ïàµ±ÓÚ²»½øÐÐÐÞÕý£¬¾ÍÊÇidx1±¾Éí
+					idx1_revise = find(COD_dem1_revise >= 0); //ï¿½àµ±ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idx1ï¿½ï¿½ï¿½ï¿½
 					break;
 				}
 
@@ -2279,7 +2292,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 			idx1 = idx1.rows(idx1_revise);
 
-			//ÓëÀ¶¹âÏà½»
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à½»
 			uvec idx3 = intersect(idx1, idx2);
 			if (idx3.n_elem > 4)
 			{
@@ -2298,7 +2311,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				idx2 = idx1;
 			}
 
-			//idx_total = idx2; //ln+cos,blue,½»¼¯
+			//idx_total = idx2; //ln+cos,blue,ï¿½ï¿½ï¿½ï¿½
 			idx_total = idx1;
 			idx_dir = idx1; //ln+cos
 		}
@@ -2431,15 +2444,15 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 		finded_toa_up_flux_sub_v_dem1(i) = toa_albedo_avg1;
 
 		//===================================================
-		//---------dem2´ú¼Ûº¯Êý------------------------
+		//---------dem2ï¿½ï¿½ï¿½Ûºï¿½ï¿½ï¿½------------------------
 		//========================================================================================================
-		////-----Ô­Ê¼µ¥²¨¶Î£¬ÓÃ¾ø¶ÔÖµ----------------------------------
+		////-----Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Î£ï¿½ï¿½Ã¾ï¿½ï¿½ï¿½Öµ----------------------------------
 		idx2 = sort_index(tmpv_dem2);
 		idx2 = idx2.head(toa_avg_num);
 
 		//========================================================================================================
-		//½áºÏÌìÆøµÄ£¬½áºÏcosºÍÅ·Ê½¾àÀëµÄ¶à²¨¶ÎËã·¨
-		if (clear_flag_dem2 == 1) //Çç¿Õ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½cosï¿½ï¿½Å·Ê½ï¿½ï¿½ï¿½ï¿½Ä¶à²¨ï¿½ï¿½ï¿½ã·¨
+		if (clear_flag_dem2 == 1) //ï¿½ï¿½ï¿½
 		{
 			fmat toa_rad_lut_dem2_log = log(toa_rad_lut_dem2);
 			fmat tmpv_dem2_mat = pow((toa_rad_lut_dem2_log.each_row() - trans(log(toa_rad))), 2);
@@ -2449,7 +2462,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			uvec idx1 = sort_index(tmpv_dem2);
 			idx1 = idx1.head(toa_avg_num);
 
-			//ÅÐ¶Ïidx1ÔÚ1ÒÔÄÚ
+			//ï¿½Ð¶ï¿½idx1ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½
 			fvec COD_dem2_revise = COD_dem2.rows(idx1);
 			uvec idx1_revise;
 			idx1_revise = find(COD_dem2_revise <= 1);
@@ -2461,7 +2474,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				toa_avg_num_new = toa_avg_num_new + 1;
 				if (toa_avg_num_new > idx1.n_elem)
 				{
-					idx1_revise = find(COD_dem2_revise >= 0); //Ïàµ±ÓÚ²»½øÐÐÐÞÕý£¬¾ÍÊÇidx1±¾Éí
+					idx1_revise = find(COD_dem2_revise >= 0); //ï¿½àµ±ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idx1ï¿½ï¿½ï¿½ï¿½
 					break;
 				}
 				idx1 = idx1.head(toa_avg_num_new);
@@ -2472,7 +2485,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 			idx1 = idx1.rows(idx1_revise);
 
-			//idx1Óëblue bandµÄidx2Ïà½»
+			//idx1ï¿½ï¿½blue bandï¿½ï¿½idx2ï¿½à½»
 			uvec idx3 = intersect(idx1, idx2);
 			if (idx3.n_elem > 4)
 			{
@@ -2483,17 +2496,17 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				idx2 = idx1;
 			}
 
-			//idx_total = idx2; //×Ü·øÉä£¬ln+cos,blue,½»¼¯
+			//idx_total = idx2; //ï¿½Ü·ï¿½ï¿½ä£¬ln+cos,blue,ï¿½ï¿½ï¿½ï¿½
 			idx_total = idx1;
-			idx_dir = idx1;//Ö±Éä·øÉä£¬ln+cos
+			idx_dir = idx1;//Ö±ï¿½ï¿½ï¿½ï¿½ä£¬ln+cos
 		}
-		else if (clear_flag_dem2 == 3)//ºñÔÆ
+		else if (clear_flag_dem2 == 3)//ï¿½ï¿½ï¿½ï¿½
 		{
-			////ÐÎ×´
-			////¼ÆËãÐÞÕýÖµ
-			float toa_revise0 = mean(toa_rad_cloud);  //¹Û²âÖµ¾ùÖµ	
+			////ï¿½ï¿½×´
+			////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+			float toa_revise0 = mean(toa_rad_cloud);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
-			//ÓàÏÒ
+			//ï¿½ï¿½ï¿½ï¿½
 			fvec cosine_multiband_dem2(toa_rad_lut_dem2_cloud.n_rows, arma::fill::zeros);
 			fmat toa_rad_lut_dem2_cloud_log = log(toa_rad_lut_dem2_cloud);
 			for (uword i = 0; i < toa_rad_lut_dem2_cloud.n_rows; i++)
@@ -2508,11 +2521,11 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			idx_total = idx1;
 			idx_dir = idx1;
 		}
-		else //±¡ÔÆºÍ²»È·¶¨
+		else //ï¿½ï¿½ï¿½ÆºÍ²ï¿½È·ï¿½ï¿½
 		{
-			//ÓàÏÒÏàËÆ¶È
-			//¼ÆËãÐÞÕýÖµ
-			float toa_revise0 = mean(toa_rad);  //¹Û²âÖµ¾ùÖµ	
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+			float toa_revise0 = mean(toa_rad);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
 			fvec cosine_multiband_dem2(toa_rad_lut_dem2.n_rows, arma::fill::zeros);
 			fmat toa_rad_lut_dem2_log = log(toa_rad_lut_dem2);
@@ -2527,10 +2540,10 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			//====================================
 			if ((ref_band3 < 0.82)&(ref_band3 >= 0.65))
 			{
-				//¼ÆËãÐÞÕýÖµ
-				toa_revise0 = mean(toa_rad_cloud);  //¹Û²âÖµ¾ùÖµ	
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+				toa_revise0 = mean(toa_rad_cloud);  //ï¿½Û²ï¿½Öµï¿½ï¿½Öµ	
 
-				//ÓàÏÒ
+				//ï¿½ï¿½ï¿½ï¿½
 				fvec cosine_multiband_dem2_2(toa_rad_lut_dem2_cloud.n_rows, arma::fill::zeros);
 				fmat toa_rad_lut_dem2_log_2 = log(toa_rad_lut_dem2_cloud);
 
@@ -2545,7 +2558,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 			}
 			//====================================
 
-			//ÅÐ¶Ïidx1ÔÚ60ÒÔÄÚ
+			//ï¿½Ð¶ï¿½idx1ï¿½ï¿½60ï¿½ï¿½ï¿½ï¿½
 			fvec COD_dem2_revise = COD_dem2.rows(idx1);
 
 			uvec idx1_revise;
@@ -2558,7 +2571,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				toa_avg_num_new = toa_avg_num_new + 1;
 				if (toa_avg_num_new > idx1.n_elem)
 				{
-					idx1_revise = find(COD_dem2_revise >= 0); //Ïàµ±ÓÚ²»½øÐÐÐÞÕý£¬¾ÍÊÇidx1±¾Éí
+					idx1_revise = find(COD_dem2_revise >= 0); //ï¿½àµ±ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½idx1ï¿½ï¿½ï¿½ï¿½
 					break;
 				}
 				idx1 = idx1.head(toa_avg_num_new);
@@ -2569,7 +2582,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 
 			idx1 = idx1.rows(idx1_revise);
 
-			//Ïà½»
+			//ï¿½à½»
 			uvec idx3 = intersect(idx1, idx2);
 			if (idx3.n_elem > 4)
 			{
@@ -2588,7 +2601,7 @@ int ahi_swdr::interp_dem(arma::fvec& dem_sub_v, arma::fvec& toa_rad_b1_sub_v, ar
 				idx2 = idx1;
 			}
 
-			//idx_total = idx2; //ln+cos,blue,½»¼¯
+			//idx_total = idx2; //ln+cos,blue,ï¿½ï¿½ï¿½ï¿½
 			idx_total = idx1;
 			idx_dir = idx1; //ln+cos
 
