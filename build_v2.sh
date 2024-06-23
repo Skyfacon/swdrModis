@@ -1,6 +1,7 @@
 # 保存当前工作目录
 ORIGINAL_DIR=$(pwd)
 
+source /opt/rh/devtoolset-10/enable
 
 gcc --version
 g++ --version
@@ -126,7 +127,7 @@ tar zxvf proj-9.4.0.tar.gz
 cd proj-9.4.0
 mkdir build
 cd build
-cmake -D CMAKE_EXE_LINKER_FLAGS="-lpthread -pthread" ..
+cmake ..
 cmake --build . --parallel $(nproc)
 cmake --build . --target install
 cd $ORIGINAL_DIR
