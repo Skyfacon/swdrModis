@@ -47,7 +47,7 @@ endif()
 
 
 # TBB 库的链接还是有问题，可以参照下 TBB库 cmake下的 README
-list(APPEND CMAKE_MODULE_PATH "/root/oneTBB-2020.3/cmake/")
+list(APPEND CMAKE_MODULE_PATH "/root/swdrmodis/oneTBB-2020.3/cmake/")
 find_package(TBB REQUIRED)
 if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})
