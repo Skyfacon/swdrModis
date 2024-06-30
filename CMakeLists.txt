@@ -1,6 +1,9 @@
 # CMake 最低版本要求
 cmake_minimum_required(VERSION 3.10)
 
+# 保存当前工作目录
+ORIGINAL_DIR=$(pwd)
+
 # 项目信息
 project(MyProject VERSION 1.0)
 
@@ -25,29 +28,12 @@ if(Boost_FOUND)
 endif()
 
 
-# # 查找并链接 OpenBLAS库
-# set(CMAKE_PREFIX_PATH "/opt/OpenBLAS/lib/cmake/openblas/")
-# find_package(OpenBLAS REQUIRED)
-# if(OpenBLAS_FOUND)
-#     include_directories(${OpenBLAS_INCLUDE_DIRS})
-#     target_link_libraries(MyProject ${OpenBLAS_LIBRARIES})
-# else()
-#     message(WARNING "OpenBLAS not found")
-# endif()
-
-
-# # 查找并链接 LAPACK 库
-# find_package(LAPACK REQUIRED)
-# if(LAPACK_FOUND)
-#     include_directories(${LAPACK_INCLUDE_DIRS})
-#     target_link_libraries(MyProject ${LAPACK_LIBRARIES})
-# else()
-#     message(WARNING "LAPACK not found")
-# endif()
-
-
 # TBB 库的链接还是有问题，可以参照下 TBB库 cmake下的 README
-list(APPEND CMAKE_MODULE_PATH "/root/swdrmodis/oneTBB-2020.3/cmake/")
+# list(APPEND CMAKE_MODULE_PATH "/root/swdrmodis/oneTBB-2020.3/cmake/")
+#set(CMAKE_PREFIX_PATH "/root/oneTBB-2020.3")
+# list(APPEND CMAKE_MODULE_PATH "/root/oneTBB-2020.3/cmake/")
+# set(TBB_DIR "/root/oneTBB-2020.3/cmake")
+set(TBB_DIR "${ORIGINAL_DIR}/oneTBB-2020.3/cmake")
 find_package(TBB REQUIRED)
 if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})
@@ -61,6 +47,7 @@ find_package(Armadillo REQUIRED)
 if(Armadillo_FOUND)
     include_directories(${ARMADILLO_INCLUDE_DIRS})
     target_link_libraries(MyProject ${ARMADILLO_LIBRARIES})
+    target_link_libraries(MyProject ${ARMADILLO_LIBRARIES} gfortran)
 else()
     message(WARNING "Armadillo not found")
 endif()
@@ -71,6 +58,14 @@ if(GDAL_FOUND)
     include_directories(${GDAL_INCLUDE_DIRS})
     target_link_libraries(MyProject ${GDAL_LIBRARIES})
 endif()
+
+
+# 手动链接pthread库
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(MyProject Threads::Threads)
+
+
 
 # # 打印库路径以进行调试
 # message(STATUS "Boost include dirs: ${Boost_INCLUDE_DIRS}")
