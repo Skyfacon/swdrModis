@@ -1,9 +1,6 @@
 # CMake 最低版本要求
 cmake_minimum_required(VERSION 3.10)
 
-# 保存当前工作目录
-ORIGINAL_DIR=$(pwd)
-
 # 项目信息
 project(MyProject VERSION 1.0)
 
@@ -33,7 +30,7 @@ endif()
 #set(CMAKE_PREFIX_PATH "/root/oneTBB-2020.3")
 # list(APPEND CMAKE_MODULE_PATH "/root/oneTBB-2020.3/cmake/")
 # set(TBB_DIR "/root/oneTBB-2020.3/cmake")
-set(TBB_DIR "${ORIGINAL_DIR}/oneTBB-2020.3/cmake")
+set(TBB_DIR "/root/swdrModis-main/oneTBB-2020.3/cmake")
 find_package(TBB REQUIRED)
 if(TBB_FOUND)
     include_directories(${TBB_INCLUDE_DIRS})

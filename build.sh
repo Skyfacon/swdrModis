@@ -180,6 +180,9 @@ echo "GDAL编译完成！"
 
 
 # 最后编译swdr项目
-mkdir build && cd build
+mkdir build
+cd build
 cmake ..
 cmake --build .
+
+echo "swdr-Modis编译完成！！！撒花"
